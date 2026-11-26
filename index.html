@@ -1,0 +1,2224 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>生理学 消化酵素と吸収</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --primary-light: #eff6ff;
+      --primary-border: #bfdbfe;
+      --success: #16a34a;
+      --success-light: #dcfce7;
+      --danger: #dc2626;
+      --danger-light: #fee2e2;
+      --warning: #d97706;
+      --warning-light: #fef3c7;
+      --warning-border: #fcd34d;
+      --teal: #0d9488;
+      --teal-light: #f0fdfa;
+      --teal-border: #99f6e4;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #cbd5e1;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 540px;
+      margin: 0 auto;
+      min-height: 100vh;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ==========================================
+       ヘッダー
+       ========================================== */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      gap: 8px;
+    }
+
+    .header-title-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1 {
+      font-size: 1.22rem;
+      font-weight: 800;
+      margin: 0;
+      color: var(--primary);
+      letter-spacing: -0.02em;
+    }
+
+    .header-sub {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .sound-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 7px 13px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--text);
+      transition: background-color 0.15s;
+      flex-shrink: 0;
+    }
+
+    .sound-btn:active {
+      background: #e2e8f0;
+    }
+
+    /* ==========================================
+       画面切り替え・共通パーツ
+       ========================================== */
+    .screen {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+      flex: 1;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    .section-card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 15px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+      border: 1px solid #e2e8f0;
+    }
+
+    .section-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--muted);
+      margin: 0 0 10px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .primary-btn {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      padding: 15px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      width: 100%;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.28);
+      transition: transform 0.1s, background-color 0.15s;
+    }
+
+    .primary-btn:active {
+      transform: scale(0.98);
+      background: var(--primary-dark);
+    }
+
+    .weak-btn {
+      background: var(--warning-light);
+      color: var(--warning);
+      border: 2px solid var(--warning);
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 0.92rem;
+      font-weight: 800;
+      cursor: pointer;
+      width: 100%;
+      transition: transform 0.1s;
+    }
+
+    .weak-btn:active {
+      transform: scale(0.98);
+    }
+
+    .secondary-btn {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .secondary-btn:active {
+      background: #f1f5f9;
+    }
+
+    /* ==========================================
+       上部3タブ切り替え
+       ========================================== */
+    .game-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
+      background: #e2e8f0;
+      padding: 5px;
+      border-radius: 14px;
+    }
+
+    .game-tab-btn {
+      background: transparent;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 4px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.18s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .game-tab-btn.active {
+      background: var(--card);
+      color: var(--primary);
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+    }
+
+    .game-tab-sub {
+      font-size: 0.63rem;
+      font-weight: 600;
+      opacity: 0.85;
+    }
+
+    .tab-panel {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .tab-panel.active {
+      display: flex;
+    }
+
+    /* 単元・モード選択ボタン */
+    .unit-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .select-btn {
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 10px;
+      font-size: 0.84rem;
+      font-weight: 800;
+      color: var(--text);
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+    }
+
+    .select-btn.selected {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .select-btn .sub {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .select-btn.selected .sub {
+      color: var(--primary-dark);
+    }
+
+    .mode-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .mode-btn {
+      text-align: left;
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mode-btn .sub {
+      margin-top: 0;
+      flex-shrink: 0;
+    }
+
+    .best-record {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    /* 3つ集め説明ボックス */
+    .collect-intro-box {
+      background: var(--primary-light);
+      border: 1px solid var(--primary-border);
+      border-radius: 12px;
+      padding: 13px 14px;
+      font-size: 0.82rem;
+      color: #1e3a8a;
+      line-height: 1.6;
+    }
+
+    .challenge-preview-list {
+      margin: 10px 0 0 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .challenge-preview-list li {
+      background: #ffffff;
+      border: 1px solid var(--primary-border);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+    }
+
+    /* ==========================================
+       共通ステータスバー
+       ========================================== */
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card);
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .combo-badge { color: var(--warning); }
+    .miss-badge { color: var(--danger); }
+
+    /* ==========================================
+       タブ1：スピード・マッチング プレイ画面
+       ========================================== */
+    .board {
+      display: grid;
+      grid-template-columns: 1fr 1.28fr;
+      gap: 10px;
+      flex: 1;
+      align-content: start;
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .col-header {
+      font-size: 0.74rem;
+      text-align: center;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .card {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 11px 9px;
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 0.84rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.1s, background-color 0.15s, border-color 0.15s, opacity 0.25s;
+      user-select: none;
+      word-break: break-word;
+      line-height: 1.3;
+    }
+
+    .card.answer-card {
+      font-size: 0.76rem;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .card.selected {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--primary);
+      transform: scale(1.02);
+    }
+
+    .card.correct {
+      border-color: var(--success);
+      background: var(--success-light);
+      color: var(--success);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .card.wrong {
+      border-color: var(--danger);
+      background: var(--danger-light);
+      color: var(--danger);
+      animation: shake 0.35s;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-6px); }
+      40% { transform: translateX(6px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+
+    .hint-toast {
+      min-height: 60px;
+      background: var(--danger-light);
+      border: 1px solid #fca5a5;
+      color: #991b1b;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+      line-height: 1.42;
+    }
+
+    .hint-toast.show {
+      opacity: 1;
+    }
+
+    /* ==========================================
+       タブ2：3つ集めチャレンジ プレイ画面
+       ========================================== */
+    .challenge-banner {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #ffffff;
+      border-radius: 14px;
+      padding: 16px 14px;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(37, 99, 235, 0.25);
+    }
+
+    .challenge-question-title {
+      font-size: 1.02rem;
+      font-weight: 900;
+      line-height: 1.45;
+      margin: 0 0 8px 0;
+    }
+
+    .select-counter-pill {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.24);
+      padding: 3px 13px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    .collect-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      flex: 1;
+      align-content: start;
+    }
+
+    .collect-card {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 10px;
+      min-height: 86px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+      line-height: 1.35;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+      word-break: break-word;
+    }
+
+    .collect-card:active {
+      transform: scale(0.97);
+    }
+
+    .collect-card.selected {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+    }
+
+    .collect-card.correct {
+      border-color: var(--success);
+      background: var(--success-light);
+      color: var(--success);
+    }
+
+    .collect-card.wrong {
+      border-color: var(--danger);
+      background: var(--danger-light);
+      color: var(--danger);
+      animation: shake 0.38s;
+    }
+
+    .collect-feedback {
+      min-height: 76px;
+      border-radius: 12px;
+      padding: 11px 13px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      line-height: 1.45;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .collect-feedback.show-ok {
+      opacity: 1;
+      background: var(--success-light);
+      border: 1px solid #86efac;
+      color: #166534;
+    }
+
+    .collect-feedback.show-ng {
+      opacity: 1;
+      background: var(--danger-light);
+      border: 1px solid #fca5a5;
+      color: #991b1b;
+    }
+
+    /* ==========================================
+       タブ3：📖 まとめ表（チートシート）
+       ========================================== */
+    .rules-box {
+      background: #eff6ff;
+      border: 1px solid var(--primary-border);
+      border-radius: 12px;
+      padding: 12px 13px;
+      font-size: 0.79rem;
+      color: #1e3a8a;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      line-height: 1.5;
+    }
+
+    .rules-box strong {
+      color: var(--primary-dark);
+    }
+
+    /* 3大栄養素の消化リレーカード */
+    .relay-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .relay-card {
+      border-radius: 12px;
+      padding: 12px;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      font-size: 0.78rem;
+      line-height: 1.48;
+    }
+
+    .relay-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      font-weight: 900;
+      font-size: 0.88rem;
+    }
+
+    .relay-route-badge {
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    .route-portal {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      border: 1px solid var(--primary-border);
+    }
+
+    .route-lymph {
+      background: var(--warning-light);
+      color: var(--warning);
+      border: 1px solid var(--warning-border);
+    }
+
+    .relay-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      color: var(--text);
+    }
+
+    .relay-steps span strong {
+      color: var(--muted);
+    }
+
+    /* 検索・フィルタUI */
+    .search-input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 0.86rem;
+      font-family: inherit;
+      background: var(--bg);
+      color: var(--text);
+      margin-bottom: 8px;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+    }
+
+    .filter-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .filter-chip {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 20px;
+      padding: 6px 11px;
+      font-size: 0.74rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .filter-chip.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .cheat-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .cheat-card {
+      background: var(--card);
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 0.79rem;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+
+    .cheat-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      flex-wrap: wrap;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .cheat-name {
+      font-size: 0.92rem;
+      font-weight: 900;
+      color: var(--text);
+    }
+
+    .cat-badge {
+      font-size: 0.67rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    .cat-enzyme {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+    }
+
+    .cat-hormone {
+      background: var(--teal-light);
+      color: var(--teal);
+      border: 1px solid var(--teal-border);
+    }
+
+    .cheat-row strong {
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .cheat-hint {
+      background: #f8fafc;
+      border-left: 3px solid var(--primary);
+      padding: 6px 9px;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #334155;
+      margin-top: 2px;
+    }
+
+    /* ==========================================
+       共通リザルト画面
+       ========================================== */
+    .result-hero {
+      text-align: center;
+      padding: 18px 16px;
+      background: var(--card);
+      border-radius: 14px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05);
+    }
+
+    .new-record-badge {
+      display: inline-block;
+      background: var(--warning-light);
+      color: var(--warning);
+      border: 1px solid var(--warning-border);
+      font-size: 0.76rem;
+      font-weight: 800;
+      padding: 3px 11px;
+      border-radius: 20px;
+      margin-bottom: 6px;
+    }
+
+    .rank-badge {
+      display: inline-block;
+      font-size: 3rem;
+      font-weight: 900;
+      line-height: 1.05;
+      margin: 4px 0;
+    }
+
+    .rank-badge.S { color: #d97706; }
+    .rank-badge.A { color: #2563eb; }
+    .rank-badge.B { color: #16a34a; }
+
+    .stats-row {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #f1f5f9;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .stats-row strong {
+      display: block;
+      font-size: 1.02rem;
+      color: var(--text);
+      margin-top: 2px;
+    }
+
+    .topic-box {
+      background: var(--primary-light);
+      border: 2px dashed var(--primary);
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .topic-label {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .topic-target {
+      font-size: 1.06rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .toggle-answer-btn {
+      background: #ffffff;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      border-radius: 8px;
+      padding: 7px 12px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    .topic-answer {
+      display: none;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--primary-border);
+      font-size: 0.81rem;
+      line-height: 1.55;
+    }
+
+    .topic-answer.open {
+      display: block;
+    }
+
+    .miss-item {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 10px 0;
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+
+    .miss-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .miss-name {
+      font-weight: 900;
+      font-size: 0.92rem;
+      color: var(--danger);
+      margin-bottom: 3px;
+    }
+
+    .perfect-box {
+      background: var(--success-light);
+      border: 1px solid #86efac;
+      color: #166534;
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 共通ヘッダー -->
+    <header>
+      <div class="header-title-wrap">
+        <h1>生理学 消化酵素と吸収</h1>
+        <span class="header-sub">OT 1・2年次 生理学（全22項目マスター）</span>
+      </div>
+      <button id="soundToggle" class="sound-btn" type="button">🔊 音 ON</button>
+    </header>
+
+    <!-- ==========================================
+         1. トップ画面（3タブ構成）
+         ========================================== -->
+    <section id="startScreen" class="screen active">
+      <div class="game-tabs">
+        <button id="tabMatchBtn" class="game-tab-btn active" type="button">
+          <span>⚡ マッチング</span>
+          <span class="game-tab-sub">2枚タップでペア</span>
+        </button>
+        <button id="tabCollectBtn" class="game-tab-btn" type="button">
+          <span>🎯 3つ集め</span>
+          <span class="game-tab-sub">全4問連続クリア</span>
+        </button>
+        <button id="tabSummaryBtn" class="game-tab-btn" type="button">
+          <span>📖 まとめ表</span>
+          <span class="game-tab-sub">リレー表・検索</span>
+        </button>
+      </div>
+
+      <!-- タブ1：⚡ スピード・マッチング -->
+      <div id="panelMatch" class="tab-panel active">
+        <div class="section-card">
+          <p class="section-title">1. 単元を選ぶ（全22項目）</p>
+          <div id="unitGrid" class="unit-grid"></div>
+        </div>
+
+        <div class="section-card">
+          <p class="section-title">2. 難易度を選ぶ</p>
+          <div class="mode-list">
+            <button class="select-btn mode-btn selected" type="button" data-mode="site">
+              <span><strong>初級</strong>：名称 ↔ 分泌液・部位・吸収ルート</span>
+              <span class="sub">まずは場所</span>
+            </button>
+            <button class="select-btn mode-btn" type="button" data-mode="action">
+              <span><strong>中級</strong>：名称 ↔ 分解対象・主な作用</span>
+              <span class="sub">働きを定着</span>
+            </button>
+            <button class="select-btn mode-btn" type="button" data-mode="point">
+              <span><strong>上級</strong>：名称 ↔ 国試・臨床ポイント</span>
+              <span class="sub">国試フル対策</span>
+            </button>
+          </div>
+        </div>
+
+        <button id="startMatchBtn" class="primary-btn" type="button">スタート！</button>
+        <button id="weakBtn" class="weak-btn" type="button" style="display:none;">
+          🔥 弱点だけ復習（<span id="weakCount">0</span>項目）
+        </button>
+        <div id="matchBestRecord" class="best-record"></div>
+      </div>
+
+      <!-- タブ2：🎯 3つ集めチャレンジ -->
+      <div id="panelCollect" class="tab-panel">
+        <div class="section-card">
+          <p class="section-title">🎯 ルール説明（全4問連続クリア）</p>
+          <div class="collect-intro-box">
+            お題に当てはまるカードを、6枚の中から<strong>3枚</strong>タップして集めます（1・2枚目は再タップで解除できます）。<br>
+            3枚目をタップした瞬間に自動判定！<strong>1回でも間違えると第1問からやり直し</strong>になります。
+            <ul class="challenge-preview-list">
+              <li>第1問：膵液に含まれる消化酵素を3つ選べ！</li>
+              <li>第2問：タンパク質を分解する酵素を3つ選べ！</li>
+              <li>第3問：糖質（炭水化物）を分解する酵素を3つ選べ！</li>
+              <li>第4問：毛細血管から「門脈」経由で吸収されるものを3つ選べ！</li>
+            </ul>
+          </div>
+        </div>
+
+        <button id="startCollectBtn" class="primary-btn" type="button">3つ集めチャレンジ開始！（全4問）</button>
+        <div id="collectBestRecord" class="best-record"></div>
+      </div>
+
+      <!-- タブ3：📖 まとめ表（チートシート） -->
+      <div id="panelSummary" class="tab-panel">
+        <!-- 国試の超頻出4大ルール -->
+        <div class="section-card" style="padding: 13px;">
+          <p class="section-title">🔥 国試の超頻出 4大ルール</p>
+          <div class="rules-box">
+            <div><strong>① 胆汁は消化酵素ゼロ！：</strong>肝臓で産生・胆嚢で濃縮され、脂肪を細かく分散（乳化）して膵リパーゼを助ける。</div>
+            <div><strong>② 膵液は3大栄養素すべてを消化：</strong>膵アミラーゼ（糖）・トリプシン等（蛋白）・膵リパーゼ（脂）のフル装備！</div>
+            <div><strong>③ 吸収ルート「門脈 vs リンパ管」：</strong>糖・アミノ酸・水溶性ビタミン（B・C）は<strong>毛細血管→門脈</strong>へ。脂質・脂溶性ビタミン<strong>DAKE</strong>は<strong>中心リンパ管→胸管→左静脈角</strong>へ！</div>
+            <div><strong>④ 胃全摘とビタミンB12：</strong>胃の壁細胞が出す「内因子」がないと回腸末端でB12が吸収できず、数年後に<strong>巨赤芽球性貧血</strong>になる。</div>
+          </div>
+        </div>
+
+        <!-- 3大栄養素の消化リレー表 -->
+        <div class="section-card" style="padding: 13px;">
+          <p class="section-title">🏃 3大栄養素の消化リレー表</p>
+          <div class="relay-list">
+            <div class="relay-card">
+              <div class="relay-header">
+                <span>🍚 糖質（デンプンなど）</span>
+                <span class="relay-route-badge route-portal">毛細血管 → 門脈</span>
+              </div>
+              <div class="relay-steps">
+                <span><strong>口（唾液）：</strong>唾液アミラーゼ（デンプン→マルトース）</span>
+                <span><strong>胃（胃液）：</strong>なし（唾液アミラーゼは胃酸で失活）</span>
+                <span><strong>十二指腸（膵液）：</strong>膵アミラーゼ（デンプン→マルトース）</span>
+                <span><strong>小腸（膜消化）：</strong>マルターゼ・ラクターゼ・スクラーゼ</span>
+                <span><strong>最終産物：</strong>単糖類（グルコース・ガラクトース・フルクトース）</span>
+              </div>
+            </div>
+
+            <div class="relay-card">
+              <div class="relay-header">
+                <span>🥩 タンパク質</span>
+                <span class="relay-route-badge route-portal">毛細血管 → 門脈</span>
+              </div>
+              <div class="relay-steps">
+                <span><strong>口（唾液）：</strong>なし</span>
+                <span><strong>胃（胃液）：</strong>ペプシン（胃酸で活性化 → ポリペプチド）</span>
+                <span><strong>十二指腸（膵液）：</strong>トリプシン・キモトリプシン（→ ポリペプチド）</span>
+                <span><strong>小腸（膜消化）：</strong>アミノペプチダーゼ</span>
+                <span><strong>最終産物：</strong>アミノ酸</span>
+              </div>
+            </div>
+
+            <div class="relay-card">
+              <div class="relay-header">
+                <span>🥑 脂質（中性脂肪）</span>
+                <span class="relay-route-badge route-lymph">中心リンパ管 → 胸管</span>
+              </div>
+              <div class="relay-steps">
+                <span><strong>口・胃：</strong>ほぼなし</span>
+                <span><strong>十二指腸（胆汁）：</strong>胆汁酸による「乳化」（酵素なし）</span>
+                <span><strong>十二指腸（膵液）：</strong>膵リパーゼ（乳化脂肪を分解）</span>
+                <span><strong>最終産物：</strong>脂肪酸 ＋ モノグリセリド（カイロミクロン化）</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 全22項目 検索・フィルタ一覧 -->
+        <div class="section-card" style="padding: 13px;">
+          <p class="section-title">
+            <span>📋 全22項目 検索・一覧</span>
+            <span id="summaryCountText" style="color: var(--primary);">22件</span>
+          </p>
+          <input id="summarySearch" class="search-input" type="search" placeholder="キーワード検索（例：膵液、門脈、B12、乳糖…）">
+          <div class="filter-chips">
+            <button class="filter-chip active" type="button" data-filter="ALL">すべて (22)</button>
+            <button class="filter-chip" type="button" data-filter="消化酵素・消化液">消化酵素・消化液 (12)</button>
+            <button class="filter-chip" type="button" data-filter="ホルモン・吸収ルート">ホルモン・吸収ルート (10)</button>
+          </div>
+          <div id="cheatList" class="cheat-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         2. プレイ画面（タブ1：スピード・マッチング）
+         ========================================== -->
+    <section id="matchPlayScreen" class="screen">
+      <div class="status-bar">
+        <span>⏱ <span id="matchTimer">0.0</span>秒</span>
+        <span>残り <span id="matchRemaining">0</span>ペア</span>
+        <span class="combo-badge">🔥 <span id="matchCombo">0</span>連続</span>
+      </div>
+
+      <div class="board">
+        <div class="column">
+          <div class="col-header">名称</div>
+          <div id="leftCol" class="column"></div>
+        </div>
+        <div class="column">
+          <div id="rightColHeader" class="col-header">分泌液・部位・吸収ルート</div>
+          <div id="rightCol" class="column"></div>
+        </div>
+      </div>
+
+      <div id="hintToast" class="hint-toast"></div>
+      <button id="quitMatchBtn" class="secondary-btn" type="button">タイトルに戻る</button>
+    </section>
+
+    <!-- ==========================================
+         3. プレイ画面（タブ2：3つ集めチャレンジ）
+         ========================================== -->
+    <section id="collectPlayScreen" class="screen">
+      <div class="status-bar">
+        <span>⏱ <span id="collectTimer">0.0</span>秒</span>
+        <span id="collectProgress">第1問 / 全4問</span>
+        <span class="miss-badge">挑戦 <span id="collectTryCount">1</span>回目</span>
+      </div>
+
+      <div class="challenge-banner">
+        <div id="collectQuestionTitle" class="challenge-question-title">お題</div>
+        <span id="collectSelectCount" class="select-counter-pill">選択中: 0 / 3</span>
+      </div>
+
+      <div id="collectGrid" class="collect-grid"></div>
+
+      <div id="collectFeedback" class="collect-feedback"></div>
+      <button id="quitCollectBtn" class="secondary-btn" type="button">タイトルに戻る</button>
+    </section>
+
+    <!-- ==========================================
+         4. 共通リザルト画面
+         ========================================== -->
+    <section id="resultScreen" class="screen">
+      <div class="result-hero">
+        <div id="newRecordBadge" class="new-record-badge" style="display:none;">🎉 ベストタイム更新！</div>
+        <div style="font-size:0.82rem; font-weight:700; color:var(--muted);">クリアランク</div>
+        <div id="rankBadge" class="rank-badge S">S</div>
+        <div id="resultSub" style="font-size:0.86rem; font-weight:800;"></div>
+        <div class="stats-row">
+          <div>クリアタイム<strong id="finalTime">0.0秒</strong></div>
+          <div>ミス回数<strong id="finalMiss">0回</strong></div>
+          <div><span id="finalThirdLabel">最大連続</span><strong id="finalThirdValue">0回</strong></div>
+        </div>
+      </div>
+
+      <!-- グループ学習「ひとこと解説お題」 -->
+      <div class="topic-box">
+        <div class="topic-label">👥 グループ学習「ひとこと解説お題」</div>
+        <div id="topicTarget" class="topic-target"></div>
+        <div style="font-size:0.82rem;">この項目が<strong>どこで働いて、何の栄養素・吸収に関わるか</strong>を、班のメンバーに1分で説明してみよう！</div>
+        <button id="toggleTopicAnswer" class="toggle-answer-btn" type="button">解答・ヒントを見る</button>
+        <div id="topicAnswer" class="topic-answer"></div>
+      </div>
+
+      <!-- 今回ミスした項目の復習一覧 -->
+      <div class="section-card">
+        <p id="missSectionTitle" class="section-title">今回ミスした項目（復習リスト）</p>
+        <div id="missList"></div>
+      </div>
+
+      <button id="retryBtn" class="primary-btn" type="button">もう一度チャレンジ</button>
+      <button id="backHomeBtn" class="secondary-btn" type="button">タイトルに戻る</button>
+    </section>
+  </div>
+
+  <script>
+    /**
+     * =========================================================================
+     * 1. 全22項目マスターデータ
+     * =========================================================================
+     */
+    const DIGESTION_ITEMS = [
+      // --- 消化酵素・消化液（12項目） ---
+      {
+        id: "d01", category: "消化酵素・消化液",
+        name: "唾液アミラーゼ（プチアリン）",
+        site: "唾液（口腔）",
+        action: "デンプン → マルトース（麦芽糖）",
+        point: "胃酸（強酸性）で失活する",
+        hint: "口の中で糖質の消化をスタート！ただし胃に入ると胃酸で働かなくなる。"
+      },
+      {
+        id: "d02", category: "消化酵素・消化液",
+        name: "ペプシン",
+        site: "胃液（主細胞）",
+        action: "タンパク質 → ポリペプチド",
+        point: "塩酸でペプシノーゲンから活性化",
+        hint: "胃液の主役。酸性環境でタンパク質だけを分解する。"
+      },
+      {
+        id: "d03", category: "消化酵素・消化液",
+        name: "胃酸（塩酸）",
+        site: "胃液（壁細胞）",
+        action: "ペプシノーゲン活性化・殺菌",
+        point: "壁細胞は「内因子」も分泌する",
+        hint: "強い酸性で殺菌＆ペプシンを活性化。壁細胞からは内因子も出る！"
+      },
+      {
+        id: "d04", category: "消化酵素・消化液",
+        name: "胆汁（胆汁酸）",
+        site: "肝臓で産生・胆嚢で濃縮",
+        action: "脂肪の乳化（消化酵素は含まない！）",
+        point: "消化酵素を含まないのが国試超頻出",
+        hint: "消化酵素はゼロ！脂肪を細かく分散（乳化）してリパーゼを助ける。"
+      },
+      {
+        id: "d05", category: "消化酵素・消化液",
+        name: "膵アミラーゼ",
+        site: "膵液（十二指腸へ分泌）",
+        action: "デンプン → マルトース（麦芽糖）",
+        point: "膵液は3大栄養素すべてを消化",
+        hint: "弱アルカリ性の膵液に含まれる糖質分解酵素。"
+      },
+      {
+        id: "d06", category: "消化酵素・消化液",
+        name: "トリプシン",
+        site: "膵液（十二指腸へ分泌）",
+        action: "タンパク質 → ポリペプチド",
+        point: "エンテロキナーゼで活性化",
+        hint: "膵液のタンパク質分解酵素。小腸のエンテロキナーゼでスイッチON！"
+      },
+      {
+        id: "d07", category: "消化酵素・消化液",
+        name: "キモトリプシン",
+        site: "膵液（十二指腸へ分泌）",
+        action: "タンパク質 → ポリペプチド",
+        point: "トリプシンによって活性化",
+        hint: "膵液のタンパク質分解酵素の1つ。トリプシンが活性化する。"
+      },
+      {
+        id: "d08", category: "消化酵素・消化液",
+        name: "膵リパーゼ",
+        site: "膵液（十二指腸へ分泌）",
+        action: "中性脂肪 → 脂肪酸＋モノグリセリド",
+        point: "胆汁酸の乳化とセットで働く",
+        hint: "脂質消化のメイン選手。胆汁で乳化された脂肪を分解する。"
+      },
+      {
+        id: "d09", category: "消化酵素・消化液",
+        name: "マルターゼ",
+        site: "小腸上皮（膜消化）",
+        action: "マルトース → グルコース",
+        point: "小腸微絨毛での「膜消化」",
+        hint: "麦芽糖を最終産物のブドウ糖（グルコース）に仕上げる！"
+      },
+      {
+        id: "d10", category: "消化酵素・消化液",
+        name: "ラクターゼ",
+        site: "小腸上皮（膜消化）",
+        action: "ラクトース（乳糖） → グルコース＋ガラクトース",
+        point: "不足すると「乳糖不耐症」",
+        hint: "牛乳の乳糖を分解する酵素。少ないと牛乳でお腹がゴロゴロする。"
+      },
+      {
+        id: "d11", category: "消化酵素・消化液",
+        name: "スクラーゼ",
+        site: "小腸上皮（膜消化）",
+        action: "スクロース（ショ糖） → グルコース＋フルクトース",
+        point: "砂糖を単糖へ分解する膜消化",
+        hint: "砂糖（ショ糖）を最終産物の単糖に分ける小腸の酵素。"
+      },
+      {
+        id: "d12", category: "消化酵素・消化液",
+        name: "アミノペプチダーゼ",
+        site: "小腸上皮（膜消化）",
+        action: "ペプチド → アミノ酸",
+        point: "タンパク質消化の最終仕上げ",
+        hint: "細かくなったペプチドを、吸収できる「アミノ酸」まで分解！"
+      },
+
+      // --- ホルモン・吸収ルート（10項目） ---
+      {
+        id: "d13", category: "ホルモン・吸収ルート",
+        name: "ガストリン",
+        site: "胃（幽門部G細胞）",
+        action: "胃酸・ペプシノーゲンの分泌促進",
+        point: "胃の伸展やタンパク質で分泌",
+        hint: "胃に食べ物が入ると分泌され、「胃液を出せ！」と命令するホルモン。"
+      },
+      {
+        id: "d14", category: "ホルモン・吸収ルート",
+        name: "セクレチン",
+        site: "十二指腸（S細胞）",
+        action: "膵液（重炭酸イオン）分泌促進・胃酸抑制",
+        point: "酸性の胃内容物を中和する",
+        hint: "胃から酸っぱい内容物が来たら、アルカリ性の膵液を出して中和！"
+      },
+      {
+        id: "d15", category: "ホルモン・吸収ルート",
+        name: "コレシストキニン（CCK）",
+        site: "十二指腸（I細胞）",
+        action: "胆嚢収縮・消化酵素豊富な膵液分泌",
+        point: "脂肪・タンパク質に反応して分泌",
+        hint: "脂っこい物が来たら胆嚢をギュッと収縮させて胆汁を出す！"
+      },
+      {
+        id: "d16", category: "ホルモン・吸収ルート",
+        name: "糖質（単糖類）の吸収",
+        site: "小腸毛細血管 → 門脈",
+        action: "グルコース等を能動輸送で肝臓へ",
+        point: "門脈経由で肝臓へ運ばれる",
+        hint: "グルコースは毛細血管から「門脈」を通って肝臓へ！"
+      },
+      {
+        id: "d17", category: "ホルモン・吸収ルート",
+        name: "タンパク質（アミノ酸）の吸収",
+        site: "小腸毛細血管 → 門脈",
+        action: "アミノ酸を能動輸送で肝臓へ",
+        point: "門脈経由で全身の材料に",
+        hint: "アミノ酸も糖質と同じく毛細血管から「門脈」を通って肝臓へ！"
+      },
+      {
+        id: "d18", category: "ホルモン・吸収ルート",
+        name: "脂質（長鎖脂肪酸等）の吸収",
+        site: "中心リンパ管 → 胸管",
+        action: "カイロミクロンとしてリンパ管へ",
+        point: "門脈を通らず左静脈角から合流",
+        hint: "脂質は門脈を通らない！「中心リンパ管→胸管→左静脈角」が超頻出。"
+      },
+      {
+        id: "d19", category: "ホルモン・吸収ルート",
+        name: "水溶性ビタミン（B群・C）",
+        site: "小腸毛細血管 → 門脈",
+        action: "門脈経由で吸収（過剰分は尿へ）",
+        point: "体内に蓄積しにくく欠乏しやすい",
+        hint: "水に溶けるB・Cは「門脈」へ。B1不足は脚気・ウェルニッケ脳症。"
+      },
+      {
+        id: "d20", category: "ホルモン・吸収ルート",
+        name: "脂溶性ビタミン（A・D・E・K）",
+        site: "中心リンパ管 → 胸管",
+        action: "脂質と一緒にリンパ管から吸収",
+        point: "覚え方は「DAKE（だけ）」",
+        hint: "油に溶けるA・D・E・K（だけ）は脂質と一緒に「リンパ管」へ！"
+      },
+      {
+        id: "d21", category: "ホルモン・吸収ルート",
+        name: "ビタミンB12の吸収",
+        site: "回腸末端（胃の内因子が必要）",
+        action: "赤血球の成熟に必須",
+        point: "胃全摘で「巨赤芽球性貧血」",
+        hint: "胃の壁細胞が出す「内因子」と結合して回腸末端で吸収される！"
+      },
+      {
+        id: "d22", category: "ホルモン・吸収ルート",
+        name: "水分・電解質の吸収",
+        site: "小腸（約8割）・大腸（残り）",
+        action: "大部分の水分を小腸で吸収",
+        point: "大腸で残りを吸収し固形便に",
+        hint: "水分吸収の主役は実は「小腸」！大腸は仕上げの水分吸収を行う。"
+      }
+    ];
+
+    /**
+     * =========================================================================
+     * 2. タブ2「3つ集めチャレンジ」全4問データ
+     * =========================================================================
+     */
+    const COLLECT_QUESTIONS = [
+      {
+        id: "cq1",
+        title: "膵液に含まれる消化酵素を3つ選べ！",
+        cards: [
+          { key: "c1", label: "膵アミラーゼ", isCorrect: true, reason: "膵液の糖質分解酵素", refId: "d05" },
+          { key: "c2", label: "トリプシン", isCorrect: true, reason: "膵液のタンパク質分解酵素", refId: "d06" },
+          { key: "c3", label: "膵リパーゼ", isCorrect: true, reason: "膵液の脂質分解酵素", refId: "d08" },
+          { key: "w1", label: "ペプシン", isCorrect: false, reason: "胃液の酵素", refId: "d02" },
+          { key: "w2", label: "胆汁酸", isCorrect: false, reason: "消化酵素なし・肝臓産生", refId: "d04" },
+          { key: "w3", label: "マルターゼ", isCorrect: false, reason: "小腸上皮の膜消化酵素", refId: "d09" }
+        ],
+        hint: "膵液は「アミラーゼ（糖）・トリプシン（蛋白）・リパーゼ（脂）」で3大栄養素すべてを消化！"
+      },
+      {
+        id: "cq2",
+        title: "タンパク質を分解する酵素を3つ選べ！",
+        cards: [
+          { key: "c1", label: "ペプシン", isCorrect: true, reason: "胃液のタンパク質分解酵素", refId: "d02" },
+          { key: "c2", label: "トリプシン", isCorrect: true, reason: "膵液のタンパク質分解酵素", refId: "d06" },
+          { key: "c3", label: "キモトリプシン", isCorrect: true, reason: "膵液のタンパク質分解酵素", refId: "d07" },
+          { key: "w1", label: "唾液アミラーゼ", isCorrect: false, reason: "糖質を分解", refId: "d01" },
+          { key: "w2", label: "膵リパーゼ", isCorrect: false, reason: "脂質を分解", refId: "d08" },
+          { key: "w3", label: "ラクターゼ", isCorrect: false, reason: "乳糖（糖質）を分解", refId: "d10" }
+        ],
+        hint: "語尾が「〜シン」や「ペプチダーゼ」はタンパク質分解酵素が多い！"
+      },
+      {
+        id: "cq3",
+        title: "糖質（炭水化物）を分解する酵素を3つ選べ！",
+        cards: [
+          { key: "c1", label: "唾液アミラーゼ", isCorrect: true, reason: "デンプンを分解", refId: "d01" },
+          { key: "c2", label: "マルターゼ", isCorrect: true, reason: "麦芽糖を分解", refId: "d09" },
+          { key: "c3", label: "スクラーゼ", isCorrect: true, reason: "ショ糖を分解", refId: "d11" },
+          { key: "w1", label: "ペプシン", isCorrect: false, reason: "タンパク質を分解", refId: "d02" },
+          { key: "w2", label: "膵リパーゼ", isCorrect: false, reason: "脂質を分解", refId: "d08" },
+          { key: "w3", label: "トリプシン", isCorrect: false, reason: "タンパク質を分解", refId: "d06" }
+        ],
+        hint: "アミラーゼ（デンプン）と、マルターゼ・スクラーゼ・ラクターゼ（二糖類）が糖質チーム！"
+      },
+      {
+        id: "cq4",
+        title: "毛細血管から「門脈」経由で吸収されるものを3つ選べ！",
+        cards: [
+          { key: "c1", label: "グルコース（単糖類）", isCorrect: true, reason: "毛細血管→門脈", refId: "d16" },
+          { key: "c2", label: "アミノ酸", isCorrect: true, reason: "毛細血管→門脈", refId: "d17" },
+          { key: "c3", label: "水溶性ビタミン（B群・C）", isCorrect: true, reason: "毛細血管→門脈", refId: "d19" },
+          { key: "w1", label: "長鎖脂肪酸", isCorrect: false, reason: "中心リンパ管→胸管", refId: "d18" },
+          { key: "w2", label: "ビタミンA", isCorrect: false, reason: "脂溶性DAKE・リンパ管", refId: "d20" },
+          { key: "w3", label: "ビタミンD", isCorrect: false, reason: "脂溶性DAKE・リンパ管", refId: "d20" }
+        ],
+        hint: "「糖・アミノ酸・水溶性ビタミン → 門脈」、「脂質・脂溶性ビタミンDAKE → リンパ管」！"
+      }
+    ];
+
+    /**
+     * =========================================================================
+     * 3. ストレージ・効果音・ユーティリティ
+     * =========================================================================
+     */
+    const STORAGE_WEAK_KEY = "ot_digestion_weak_ids_v1";
+    const STORAGE_BEST_KEY = "ot_digestion_best_times_v1";
+
+    let soundOn = true;
+    let audioCtx = null;
+
+    function playSound(type) {
+      if (!soundOn) return;
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === "suspended") {
+          audioCtx.resume();
+        }
+        const now = audioCtx.currentTime;
+        const tone = (freq, dur, wave, vol, delay = 0) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = wave;
+          osc.frequency.setValueAtTime(freq, now + delay);
+          gain.gain.setValueAtTime(vol, now + delay);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + delay + dur);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now + delay);
+          osc.stop(now + delay + dur);
+        };
+
+        if (type === "tap") {
+          tone(540, 0.05, "sine", 0.06);
+        } else if (type === "ok") {
+          tone(659.25, 0.09, "sine", 0.12, 0);
+          tone(987.77, 0.16, "sine", 0.13, 0.07);
+        } else if (type === "ng") {
+          tone(210, 0.15, "sawtooth", 0.1, 0);
+          tone(160, 0.2, "sawtooth", 0.1, 0.09);
+        } else if (type === "clear") {
+          tone(523.25, 0.11, "sine", 0.12, 0);
+          tone(659.25, 0.11, "sine", 0.12, 0.09);
+          tone(783.99, 0.11, "sine", 0.12, 0.18);
+          tone(1046.5, 0.34, "sine", 0.14, 0.27);
+        }
+      } catch (e) {}
+    }
+
+    function getWeakIds() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(STORAGE_WEAK_KEY) || "[]");
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveWeakIds(ids) {
+      try {
+        localStorage.setItem(STORAGE_WEAK_KEY, JSON.stringify([...new Set(ids)]));
+      } catch (e) {}
+    }
+
+    function addWeakId(id) {
+      const list = getWeakIds();
+      if (!list.includes(id)) {
+        list.push(id);
+        saveWeakIds(list);
+      }
+    }
+
+    function removeWeakId(id) {
+      saveWeakIds(getWeakIds().filter(x => x !== id));
+    }
+
+    function getBestTimes() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_BEST_KEY) || "{}");
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function updateBestTime(key, sec) {
+      const data = getBestTimes();
+      const prev = data[key];
+      if (typeof prev !== "number" || sec < prev) {
+        data[key] = sec;
+        try {
+          localStorage.setItem(STORAGE_BEST_KEY, JSON.stringify(data));
+        } catch (e) {}
+        return true;
+      }
+      return false;
+    }
+
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    /**
+     * =========================================================================
+     * 4. アプリ状態管理
+     * =========================================================================
+     */
+    let activeTab = "match";             // "match" | "collect" | "summary"
+    let selectedUnit = "消化酵素・消化液"; // "消化酵素・消化液" | "ホルモン・吸収ルート" | "ALL"
+    let selectedMode = "site";           // "site" | "action" | "point"
+    let summaryFilter = "ALL";           // "ALL" | "消化酵素・消化液" | "ホルモン・吸収ルート"
+    let lastPlayedType = "match";        // "match" | "weak" | "collect"
+
+    // 共通タイマー
+    let timerInterval = null;
+    let startTime = 0;
+    let elapsedSec = 0;
+
+    // タブ1（マッチング）状態
+    let matchState = {
+      isWeakMode: false,
+      playedList: [],
+      batches: [],
+      batchIndex: 0,
+      currentBatch: [],
+      selectedLeft: null,
+      selectedRight: null,
+      matchedInBatch: 0,
+      clearedTotal: 0,
+      missCount: 0,
+      combo: 0,
+      maxCombo: 0,
+      missedSet: new Set(),
+      hintTimer: null
+    };
+
+    // タブ2（3つ集め）状態
+    let collectState = {
+      qIndex: 0,
+      cards: [],
+      selectedKeys: new Set(),
+      attemptCount: 1,
+      missCount: 0,
+      missedRefIds: new Set(),
+      isLocked: false
+    };
+
+    function showScreen(id) {
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
+
+    function stopTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+    }
+
+    /**
+     * =========================================================================
+     * 5. トップ画面 & まとめ表描画
+     * =========================================================================
+     */
+    function renderStartScreen() {
+      document.getElementById("tabMatchBtn").classList.toggle("active", activeTab === "match");
+      document.getElementById("tabCollectBtn").classList.toggle("active", activeTab === "collect");
+      document.getElementById("tabSummaryBtn").classList.toggle("active", activeTab === "summary");
+
+      document.getElementById("panelMatch").classList.toggle("active", activeTab === "match");
+      document.getElementById("panelCollect").classList.toggle("active", activeTab === "collect");
+      document.getElementById("panelSummary").classList.toggle("active", activeTab === "summary");
+
+      // 単元ボタン描画
+      const unitOptions = [
+        { id: "消化酵素・消化液", label: "消化酵素・消化液", sub: "12問", full: false },
+        { id: "ホルモン・吸収ルート", label: "ホルモン・吸収ルート", sub: "10問", full: false },
+        { id: "ALL", label: "全範囲ランダム出題", sub: "全22項目からランダム10問", full: true }
+      ];
+
+      const unitGrid = document.getElementById("unitGrid");
+      unitGrid.innerHTML = "";
+      unitOptions.forEach(u => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "select-btn" + (selectedUnit === u.id ? " selected" : "");
+        if (u.full) btn.style.gridColumn = "span 2";
+        btn.innerHTML = `${u.label}<span class="sub">${u.sub}</span>`;
+        btn.onclick = () => {
+          playSound("tap");
+          selectedUnit = u.id;
+          renderStartScreen();
+        };
+        unitGrid.appendChild(btn);
+      });
+
+      // 弱点復習ボタン
+      const validIds = DIGESTION_ITEMS.map(d => d.id);
+      const weakIds = getWeakIds().filter(id => validIds.includes(id));
+      const weakBtn = document.getElementById("weakBtn");
+      if (weakIds.length > 0) {
+        weakBtn.style.display = "block";
+        document.getElementById("weakCount").textContent = String(weakIds.length);
+      } else {
+        weakBtn.style.display = "none";
+      }
+
+      // ベストタイム表示
+      const bests = getBestTimes();
+      const mBest = bests[`match_${selectedUnit}_${selectedMode}`];
+      document.getElementById("matchBestRecord").textContent =
+        typeof mBest === "number"
+          ? `この条件のベストタイム：${mBest.toFixed(1)}秒`
+          : "まだクリア記録がありません";
+
+      const cBest = bests["collect_4q"];
+      document.getElementById("collectBestRecord").textContent =
+        typeof cBest === "number"
+          ? `3つ集めチャレンジ ベストタイム：${cBest.toFixed(1)}秒`
+          : "まだクリア記録がありません";
+    }
+
+    function renderCheatList() {
+      const keyword = (document.getElementById("summarySearch").value || "").trim().toLowerCase();
+      const filtered = DIGESTION_ITEMS.filter(item => {
+        const matchCat = summaryFilter === "ALL" || item.category === summaryFilter;
+        if (!matchCat) return false;
+        if (!keyword) return true;
+        const hay = `${item.name} ${item.site} ${item.action} ${item.point} ${item.hint}`.toLowerCase();
+        return hay.includes(keyword);
+      });
+
+      document.getElementById("summaryCountText").textContent = `${filtered.length}件`;
+      const container = document.getElementById("cheatList");
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding:18px; color:var(--muted); font-size:0.84rem; font-weight:700;">該当する項目がありません</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(item => {
+        const badgeCls = item.category === "消化酵素・消化液" ? "cat-enzyme" : "cat-hormone";
+        return `
+          <div class="cheat-card">
+            <div class="cheat-head">
+              <span class="cheat-name">${item.name}</span>
+              <span class="cat-badge ${badgeCls}">${item.category}</span>
+            </div>
+            <div class="cheat-row"><strong>部位・ルート：</strong>${item.site}</div>
+            <div class="cheat-row"><strong>作用・分解：</strong>${item.action}</div>
+            <div class="cheat-row"><strong>国試ポイント：</strong>${item.point}</div>
+            <div class="cheat-hint">💡 ${item.hint}</div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    /**
+     * =========================================================================
+     * 6. タブ1：スピード・マッチング
+     * =========================================================================
+     */
+    function getMatchAnswerText(item, mode) {
+      if (mode === "site") return item.site;
+      if (mode === "action") return item.action;
+      return item.point;
+    }
+
+    /**
+     * 同じ解答テキストが1バッチ（最大5枚）に極力重複しないよう均等分散
+     */
+    function buildBalancedBatches(list, mode, batchSize = 5) {
+      const shuffled = shuffle(list);
+      const numBatches = Math.ceil(shuffled.length / batchSize);
+      if (numBatches <= 1) return [shuffled];
+
+      const batches = Array.from({ length: numBatches }, () => []);
+      const groups = new Map();
+
+      for (const item of shuffled) {
+        const ans = getMatchAnswerText(item, mode);
+        if (!groups.has(ans)) groups.set(ans, []);
+        groups.get(ans).push(item);
+      }
+
+      const sortedGroups = Array.from(groups.values()).sort((a, b) => b.length - a.length);
+
+      for (const group of sortedGroups) {
+        for (const item of group) {
+          const ans = getMatchAnswerText(item, mode);
+          const candidates = batches
+            .map((b, idx) => ({
+              idx,
+              len: b.length,
+              sameCount: b.filter(x => getMatchAnswerText(x, mode) === ans).length
+            }))
+            .filter(c => c.len < batchSize)
+            .sort((a, b) => (a.sameCount - b.sameCount) || (a.len - b.len));
+
+          batches[candidates[0].idx].push(item);
+        }
+      }
+
+      return shuffle(batches.filter(b => b.length > 0));
+    }
+
+    function startMatchGame(isWeakMode = false) {
+      playSound("tap");
+      lastPlayedType = isWeakMode ? "weak" : "match";
+
+      let targetList = [];
+      if (isWeakMode) {
+        const weakIds = getWeakIds();
+        targetList = DIGESTION_ITEMS.filter(d => weakIds.includes(d.id));
+        if (targetList.length === 0) {
+          renderStartScreen();
+          return;
+        }
+      } else if (selectedUnit === "ALL") {
+        targetList = shuffle(DIGESTION_ITEMS).slice(0, 10);
+      } else {
+        targetList = DIGESTION_ITEMS.filter(d => d.category === selectedUnit);
+      }
+
+      const batches = buildBalancedBatches(targetList, selectedMode, 5);
+
+      if (matchState.hintTimer) clearTimeout(matchState.hintTimer);
+      matchState = {
+        isWeakMode,
+        playedList: targetList,
+        batches,
+        batchIndex: 0,
+        currentBatch: [],
+        selectedLeft: null,
+        selectedRight: null,
+        matchedInBatch: 0,
+        clearedTotal: 0,
+        missCount: 0,
+        combo: 0,
+        maxCombo: 0,
+        missedSet: new Set(),
+        hintTimer: null
+      };
+
+      const headerMap = {
+        site: "分泌液・部位・吸収ルート",
+        action: "分解対象・主な作用",
+        point: "国試・臨床ポイント"
+      };
+      document.getElementById("rightColHeader").textContent = headerMap[selectedMode];
+      document.getElementById("matchCombo").textContent = "0";
+      document.getElementById("hintToast").classList.remove("show");
+
+      showScreen("matchPlayScreen");
+
+      stopTimer();
+      startTime = performance.now();
+      elapsedSec = 0;
+      document.getElementById("matchTimer").textContent = "0.0";
+      timerInterval = setInterval(() => {
+        elapsedSec = (performance.now() - startTime) / 1000;
+        document.getElementById("matchTimer").textContent = elapsedSec.toFixed(1);
+      }, 100);
+
+      loadMatchBatch(0);
+    }
+
+    function loadMatchBatch(idx) {
+      matchState.batchIndex = idx;
+      matchState.currentBatch = matchState.batches[idx];
+      matchState.matchedInBatch = 0;
+      matchState.selectedLeft = null;
+      matchState.selectedRight = null;
+
+      updateMatchRemaining();
+      renderMatchBoard();
+    }
+
+    function updateMatchRemaining() {
+      const rem = matchState.playedList.length - matchState.clearedTotal;
+      document.getElementById("matchRemaining").textContent = String(rem);
+    }
+
+    function renderMatchBoard() {
+      const leftCol = document.getElementById("leftCol");
+      const rightCol = document.getElementById("rightCol");
+      leftCol.innerHTML = "";
+      rightCol.innerHTML = "";
+
+      shuffle(matchState.currentBatch).forEach(item => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.textContent = item.name;
+        card.dataset.answer = getMatchAnswerText(item, selectedMode);
+        card.onclick = () => selectMatchCard("left", card, item);
+        leftCol.appendChild(card);
+      });
+
+      shuffle(matchState.currentBatch).forEach(item => {
+        const card = document.createElement("div");
+        card.className = "card answer-card";
+        card.textContent = getMatchAnswerText(item, selectedMode);
+        card.dataset.answer = getMatchAnswerText(item, selectedMode);
+        card.onclick = () => selectMatchCard("right", card, item);
+        rightCol.appendChild(card);
+      });
+    }
+
+    function selectMatchCard(side, el, item) {
+      if (el.classList.contains("correct")) return;
+      playSound("tap");
+
+      if (side === "left") {
+        if (matchState.selectedLeft) matchState.selectedLeft.el.classList.remove("selected");
+        matchState.selectedLeft = { el, item };
+        el.classList.add("selected");
+      } else {
+        if (matchState.selectedRight) matchState.selectedRight.el.classList.remove("selected");
+        matchState.selectedRight = { el, item };
+        el.classList.add("selected");
+      }
+
+      if (matchState.selectedLeft && matchState.selectedRight) {
+        checkMatchPair();
+      }
+    }
+
+    function checkMatchPair() {
+      const l = matchState.selectedLeft;
+      const r = matchState.selectedRight;
+      matchState.selectedLeft = null;
+      matchState.selectedRight = null;
+
+      // 解答テキスト一致で判定（同じ分泌液・吸収ルートが並んでも正しく正解）
+      const isCorrect = l.el.dataset.answer === r.el.dataset.answer;
+
+      if (isCorrect) {
+        playSound("ok");
+        l.el.classList.remove("selected");
+        r.el.classList.remove("selected");
+        l.el.classList.add("correct");
+        r.el.classList.add("correct");
+
+        matchState.combo++;
+        if (matchState.combo > matchState.maxCombo) {
+          matchState.maxCombo = matchState.combo;
+        }
+        document.getElementById("matchCombo").textContent = String(matchState.combo);
+
+        // 弱点復習モードで今回ノーミス正解なら弱点から解除
+        if (matchState.isWeakMode && !matchState.missedSet.has(l.item.id)) {
+          removeWeakId(l.item.id);
+        }
+
+        matchState.matchedInBatch++;
+        matchState.clearedTotal++;
+        updateMatchRemaining();
+
+        if (matchState.matchedInBatch === matchState.currentBatch.length) {
+          setTimeout(() => {
+            if (matchState.batchIndex + 1 < matchState.batches.length) {
+              loadMatchBatch(matchState.batchIndex + 1);
+            } else {
+              finishMatchGame();
+            }
+          }, 320);
+        }
+      } else {
+        playSound("ng");
+        matchState.missCount++;
+        matchState.combo = 0;
+        document.getElementById("matchCombo").textContent = "0";
+
+        matchState.missedSet.add(l.item.id);
+        addWeakId(l.item.id);
+
+        l.el.classList.remove("selected");
+        r.el.classList.remove("selected");
+        l.el.classList.add("wrong");
+        r.el.classList.add("wrong");
+
+        setTimeout(() => {
+          l.el.classList.remove("wrong");
+          r.el.classList.remove("wrong");
+        }, 380);
+
+        showMatchHint(`💡 ${l.item.name}：${l.item.hint}`);
+      }
+    }
+
+    function showMatchHint(text) {
+      const toast = document.getElementById("hintToast");
+      toast.textContent = text;
+      toast.classList.add("show");
+      if (matchState.hintTimer) clearTimeout(matchState.hintTimer);
+      matchState.hintTimer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3600);
+    }
+
+    function finishMatchGame() {
+      stopTimer();
+      elapsedSec = (performance.now() - startTime) / 1000;
+      playSound("clear");
+
+      let isNewRecord = false;
+      if (!matchState.isWeakMode) {
+        isNewRecord = updateBestTime(`match_${selectedUnit}_${selectedMode}`, elapsedSec);
+      }
+
+      const missedList = matchState.playedList.filter(d => matchState.missedSet.has(d.id));
+      renderResultScreen({
+        timeSec: elapsedSec,
+        misses: matchState.missCount,
+        isNewRecord,
+        thirdLabel: "最大連続",
+        thirdValue: `${matchState.maxCombo}回`,
+        missedList,
+        topicPool: missedList.length > 0 ? missedList : matchState.playedList
+      });
+    }
+
+    /**
+     * =========================================================================
+     * 7. タブ2：3つ集めチャレンジ（全4問連続クリア）
+     * =========================================================================
+     */
+    function startCollectGame() {
+      playSound("tap");
+      lastPlayedType = "collect";
+
+      collectState = {
+        qIndex: 0,
+        cards: [],
+        selectedKeys: new Set(),
+        attemptCount: 1,
+        missCount: 0,
+        missedRefIds: new Set(),
+        isLocked: false
+      };
+
+      document.getElementById("collectTryCount").textContent = "1";
+      showScreen("collectPlayScreen");
+
+      stopTimer();
+      startTime = performance.now();
+      elapsedSec = 0;
+      document.getElementById("collectTimer").textContent = "0.0";
+      timerInterval = setInterval(() => {
+        elapsedSec = (performance.now() - startTime) / 1000;
+        document.getElementById("collectTimer").textContent = elapsedSec.toFixed(1);
+      }, 100);
+
+      loadCollectQuestion(0);
+    }
+
+    function loadCollectQuestion(qIdx) {
+      collectState.qIndex = qIdx;
+      collectState.selectedKeys = new Set();
+      collectState.isLocked = false;
+
+      const q = COLLECT_QUESTIONS[qIdx];
+      collectState.cards = shuffle(q.cards);
+
+      document.getElementById("collectProgress").textContent = `第${qIdx + 1}問 / 全${COLLECT_QUESTIONS.length}問`;
+      document.getElementById("collectQuestionTitle").textContent = q.title;
+      document.getElementById("collectSelectCount").textContent = "選択中: 0 / 3";
+
+      const fb = document.getElementById("collectFeedback");
+      fb.className = "collect-feedback";
+      fb.textContent = "";
+
+      renderCollectCards();
+    }
+
+    function renderCollectCards() {
+      const grid = document.getElementById("collectGrid");
+      grid.innerHTML = "";
+
+      collectState.cards.forEach(c => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "collect-card" + (collectState.selectedKeys.has(c.key) ? " selected" : "");
+        btn.dataset.key = c.key;
+        btn.textContent = c.label;
+        btn.onclick = () => onTapCollectCard(c);
+        grid.appendChild(btn);
+      });
+    }
+
+    function onTapCollectCard(card) {
+      if (collectState.isLocked) return;
+
+      if (collectState.selectedKeys.has(card.key)) {
+        playSound("tap");
+        collectState.selectedKeys.delete(card.key);
+      } else {
+        if (collectState.selectedKeys.size >= 3) return;
+        playSound("tap");
+        collectState.selectedKeys.add(card.key);
+      }
+
+      document.getElementById("collectSelectCount").textContent =
+        `選択中: ${collectState.selectedKeys.size} / 3`;
+      renderCollectCards();
+
+      if (collectState.selectedKeys.size === 3) {
+        judgeCollectQuestion();
+      }
+    }
+
+    function judgeCollectQuestion() {
+      collectState.isLocked = true;
+      const q = COLLECT_QUESTIONS[collectState.qIndex];
+      const chosen = collectState.cards.filter(c => collectState.selectedKeys.has(c.key));
+      const wrongs = chosen.filter(c => !c.isCorrect);
+
+      const cardEls = document.querySelectorAll("#collectGrid .collect-card");
+      const fb = document.getElementById("collectFeedback");
+
+      if (wrongs.length === 0) {
+        // 正解！
+        playSound("ok");
+        cardEls.forEach(el => {
+          if (collectState.selectedKeys.has(el.dataset.key)) {
+            el.classList.remove("selected");
+            el.classList.add("correct");
+          }
+        });
+
+        fb.className = "collect-feedback show-ok";
+        fb.textContent = `⭕ 正解！${q.hint}`;
+
+        setTimeout(() => {
+          if (collectState.qIndex + 1 >= COLLECT_QUESTIONS.length) {
+            finishCollectGame();
+          } else {
+            loadCollectQuestion(collectState.qIndex + 1);
+          }
+        }, 900);
+      } else {
+        // 不正解：ダミーと解説を2秒間表示してから第1問へリセット
+        playSound("ng");
+        collectState.missCount++;
+        collectState.attemptCount++;
+
+        wrongs.forEach(w => {
+          if (w.refId) {
+            collectState.missedRefIds.add(w.refId);
+            addWeakId(w.refId);
+          }
+        });
+
+        cardEls.forEach(el => {
+          if (collectState.selectedKeys.has(el.dataset.key)) {
+            el.classList.remove("selected");
+            const isWrong = wrongs.some(w => w.key === el.dataset.key);
+            el.classList.add(isWrong ? "wrong" : "correct");
+          }
+        });
+
+        const wrongDesc = wrongs.map(w => `${w.label}（${w.reason}）`).join("・");
+        fb.className = "collect-feedback show-ng";
+        fb.textContent = `❌ 不正解！ダミー：${wrongDesc}。${q.hint}（第1問からやり直し！）`;
+
+        setTimeout(() => {
+          document.getElementById("collectTryCount").textContent = String(collectState.attemptCount);
+          loadCollectQuestion(0);
+        }, 2000);
+      }
+    }
+
+    function finishCollectGame() {
+      stopTimer();
+      elapsedSec = (performance.now() - startTime) / 1000;
+      playSound("clear");
+
+      const isNewRecord = updateBestTime("collect_4q", elapsedSec);
+      const missedList = DIGESTION_ITEMS.filter(d => collectState.missedRefIds.has(d.id));
+
+      renderResultScreen({
+        timeSec: elapsedSec,
+        misses: collectState.missCount,
+        isNewRecord,
+        thirdLabel: "挑戦回数",
+        thirdValue: `${collectState.attemptCount}回目`,
+        missedList,
+        topicPool: missedList.length > 0 ? missedList : DIGESTION_ITEMS
+      });
+    }
+
+    /**
+     * =========================================================================
+     * 8. 共通リザルト画面
+     * =========================================================================
+     */
+    function renderResultScreen({ timeSec, misses, isNewRecord, thirdLabel, thirdValue, missedList, topicPool }) {
+      let rank = "B";
+      let subText = "粘り強くクリア！ミスした項目を復習してリベンジしよう！";
+      if (misses === 0) {
+        rank = "S";
+        subText = "パーフェクト！消化酵素と吸収ルートが完璧に整理できています！";
+      } else if (misses <= 2) {
+        rank = "A";
+        subText = "素晴らしい！あと少しでノーミスSランクです！";
+      }
+
+      document.getElementById("newRecordBadge").style.display = isNewRecord ? "inline-block" : "none";
+      const rankEl = document.getElementById("rankBadge");
+      rankEl.textContent = rank;
+      rankEl.className = `rank-badge ${rank}`;
+
+      document.getElementById("resultSub").textContent = subText;
+      document.getElementById("finalTime").textContent = `${timeSec.toFixed(1)}秒`;
+      document.getElementById("finalMiss").textContent = `${misses}回`;
+      document.getElementById("finalThirdLabel").textContent = thirdLabel;
+      document.getElementById("finalThirdValue").textContent = thirdValue;
+
+      // グループ学習「ひとこと解説お題」
+      const topic = topicPool[Math.floor(Math.random() * topicPool.length)];
+      document.getElementById("topicTarget").textContent = `お題：${topic.name}`;
+      const topicAns = document.getElementById("topicAnswer");
+      topicAns.classList.remove("open");
+      topicAns.innerHTML = `
+        <div><strong>分泌液・部位・ルート：</strong>${topic.site}</div>
+        <div><strong>分解対象・主な作用：</strong>${topic.action}</div>
+        <div><strong>国試・臨床ポイント：</strong>${topic.point}</div>
+        <div style="margin-top:4px; color:var(--primary);"><strong>💡 ヒント：</strong>${topic.hint}</div>
+      `;
+
+      // ミス項目復習一覧
+      const missTitle = document.getElementById("missSectionTitle");
+      const missListEl = document.getElementById("missList");
+      if (missedList.length > 0) {
+        missTitle.textContent = "今回ミスした項目（弱点リストに登録済み）";
+        missListEl.innerHTML = missedList.map(m => `
+          <div class="miss-item">
+            <div class="miss-name">${m.name}</div>
+            <div><strong>部位・ルート：</strong>${m.site}</div>
+            <div><strong>作用・分解：</strong>${m.action}</div>
+            <div><strong>国試ポイント：</strong>${m.point}</div>
+            <div style="color:var(--muted); margin-top:2px;">💡 ${m.hint}</div>
+          </div>
+        `).join("");
+      } else {
+        missTitle.textContent = "今回の結果";
+        missListEl.innerHTML = `<div class="perfect-box">🎉 ミスなしパーフェクト！この調子で次のモードにも挑戦しよう！</div>`;
+      }
+
+      showScreen("resultScreen");
+    }
+
+    /**
+     * =========================================================================
+     * 9. イベントリスナー登録・初期化
+     * =========================================================================
+     */
+    document.getElementById("soundToggle").onclick = (e) => {
+      soundOn = !soundOn;
+      e.target.textContent = soundOn ? "🔊 音 ON" : "🔇 音 OFF";
+      if (soundOn) playSound("tap");
+    };
+
+    // 3タブ切り替え
+    document.getElementById("tabMatchBtn").onclick = () => {
+      playSound("tap");
+      activeTab = "match";
+      renderStartScreen();
+    };
+    document.getElementById("tabCollectBtn").onclick = () => {
+      playSound("tap");
+      activeTab = "collect";
+      renderStartScreen();
+    };
+    document.getElementById("tabSummaryBtn").onclick = () => {
+      playSound("tap");
+      activeTab = "summary";
+      renderStartScreen();
+    };
+
+    // マッチング難易度切り替え
+    document.querySelectorAll(".mode-btn").forEach(btn => {
+      btn.onclick = () => {
+        playSound("tap");
+        document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        selectedMode = btn.dataset.mode;
+        renderStartScreen();
+      };
+    });
+
+    // ゲーム開始ボタン
+    document.getElementById("startMatchBtn").onclick = () => startMatchGame(false);
+    document.getElementById("weakBtn").onclick = () => startMatchGame(true);
+    document.getElementById("startCollectBtn").onclick = () => startCollectGame();
+
+    // プレイ中断
+    document.getElementById("quitMatchBtn").onclick = () => {
+      stopTimer();
+      playSound("tap");
+      renderStartScreen();
+      showScreen("startScreen");
+    };
+    document.getElementById("quitCollectBtn").onclick = () => {
+      stopTimer();
+      playSound("tap");
+      renderStartScreen();
+      showScreen("startScreen");
+    };
+
+    // まとめ表 検索・フィルタ
+    document.getElementById("summarySearch").addEventListener("input", renderCheatList);
+    document.querySelectorAll(".filter-chip").forEach(chip => {
+      chip.onclick = () => {
+        playSound("tap");
+        document.querySelectorAll(".filter-chip").forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        summaryFilter = chip.dataset.filter;
+        renderCheatList();
+      };
+    });
+
+    // リザルト操作
+    document.getElementById("toggleTopicAnswer").onclick = () => {
+      playSound("tap");
+      document.getElementById("topicAnswer").classList.toggle("open");
+    };
+
+    document.getElementById("retryBtn").onclick = () => {
+      if (lastPlayedType === "collect") {
+        startCollectGame();
+      } else if (lastPlayedType === "weak") {
+        if (getWeakIds().length === 0) {
+          renderStartScreen();
+          showScreen("startScreen");
+        } else {
+          startMatchGame(true);
+        }
+      } else {
+        startMatchGame(false);
+      }
+    };
+
+    document.getElementById("backHomeBtn").onclick = () => {
+      playSound("tap");
+      renderStartScreen();
+      showScreen("startScreen");
+    };
+
+    // 初期描画
+    renderCheatList();
+    renderStartScreen();
+  </script>
+</body>
+</html>
